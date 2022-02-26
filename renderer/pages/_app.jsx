@@ -5,7 +5,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <title>YouTube channels parser</title>
+        <title>YouTube playlist parser</title>
       </Head>
       <main className="d-flex align-content-center flex-wrap">
         <Component {...pageProps} />
