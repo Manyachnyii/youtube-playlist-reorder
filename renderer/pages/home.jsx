@@ -15,8 +15,11 @@ import { getVideoInfoList } from "../lib/yt-parse/getVideoInfoList";
 
 export default function Home() {
   const [url, setUrl] = useState("");
-  const [loadList, setLoadList] = useState(false);
+  const [status, setStatus] = useState(
+    "none" || "loading" || "success" || "unsuccess"
+  );
   const [videosInfo, setVideosInfo] = useState([]);
+  console.log(status);
 
   const changeUrl = (e) => {
     const { value } = e.target;
@@ -25,13 +28,15 @@ export default function Home() {
 
   const loadInfo = async (e) => {
     e.preventDefault();
+    setStatus("loading");
     const res = await getVideoInfoList(url);
 
     if (res.success) {
       const { data } = res;
       setVideosInfo(data);
-      setLoadList(true);
-      console.log("home loadInfo", data);
+      setStatus("success");
+    } else {
+      setStatus("unsuccess");
     }
   };
 
@@ -54,7 +59,13 @@ export default function Home() {
           <Button>Submit</Button>
         </Form>
 
-        {loadList && <ResultList videosInfo={videosInfo} />}
+        {status === "loading" && "Load..."}
+
+        {status === "unsuccess" && "Wasted"}
+
+        {status === "success" && videosInfo && (
+          <ResultList videosInfo={videosInfo} />
+        )}
       </Container>
     </>
   );
