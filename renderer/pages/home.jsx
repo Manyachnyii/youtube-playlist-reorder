@@ -1,39 +1,29 @@
-import {
-  Container,
-  InputGroup,
-  Input,
-  Button,
-  Form,
-  FormGroup,
-  Label,
-} from "reactstrap";
+import { Container, Input, Button, Form, FormGroup, Label } from "reactstrap";
 import { useState } from "react";
 
-import ResultList from "../components/ResultList";
+import { ResultList } from "../components/ResultList";
 
-import { getVideoInfoList } from "../lib/yt-parse/getVideoInfoList";
+import { getPlaylist } from "../lib/getPlaylist";
 
 export default function Home() {
   const [url, setUrl] = useState("");
   const [status, setStatus] = useState(
     "none" || "loading" || "success" || "unsuccess"
   );
-  const [videosInfo, setVideosInfo] = useState([]);
-  console.log(status);
+  const [playlist, setPlaylist] = useState({});
 
-  const changeUrl = (e) => {
+  const handleChange = (e) => {
     const { value } = e.target;
     setUrl(value);
   };
 
-  const loadInfo = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("loading");
-    const res = await getVideoInfoList(url);
+    const res = await getPlaylist(url);
 
     if (res.success) {
-      const { data } = res;
-      setVideosInfo(data);
+      setPlaylist({ ...res.data });
       setStatus("success");
     } else {
       setStatus("unsuccess");
@@ -43,29 +33,27 @@ export default function Home() {
   return (
     <>
       <Container className="h-100">
-        <Form className="align-self-center my-3" onSubmit={loadInfo} inline>
+        <Form className="align-self-center my-3" onSubmit={handleSubmit} inline>
           <FormGroup floating>
             <Input
               id="URL"
               name="URL"
               placeholder="URL"
               type="text"
-              onChange={changeUrl}
+              onChange={handleChange}
             />
             <Label for="URL">
               URL of channel, user, playlist or playlist ID
             </Label>
           </FormGroup>
-          <Button>Submit</Button>
+          <Button disabled={status === "loading" ? true : false}>Submit</Button>
         </Form>
 
         {status === "loading" && "Load..."}
 
         {status === "unsuccess" && "Wasted"}
 
-        {status === "success" && videosInfo && (
-          <ResultList videosInfo={videosInfo} />
-        )}
+        {status === "success" && playlist && <ResultList playlist={playlist} />}
       </Container>
     </>
   );
