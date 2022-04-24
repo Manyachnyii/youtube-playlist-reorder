@@ -9,7 +9,7 @@ export const FormSearch = ({ handleSubmit, isLoading }) => (
         placeholder="URL of channel, user, playlist or playlist ID"
         type="text"
       />
-      <Button disabled={isLoading ? true : false}>Submit</Button>
+      <Button disabled={isLoading}>Submit</Button>
     </InputGroup>
   </Form>
 );
