@@ -12,6 +12,7 @@ export const ResultList = ({
           src={author.bestAvatar.url}
           width={author.bestAvatar.width}
           height={author.bestAvatar.height}
+          layout="responsive"
         />
         <span className="h1">{author.name}</span>
       </div>
