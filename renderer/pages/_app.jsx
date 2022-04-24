@@ -7,14 +7,9 @@ function MyApp({ Component, pageProps }) {
       <Head>
         <title>YouTube playlist parser</title>
       </Head>
-      <main className="d-flex align-content-center flex-wrap">
+      <main className="min-vh-100 d-flex flex-wrap align-content-center">
         <Component {...pageProps} />
       </main>
-      <style jsx>{`
-        main {
-          min-height: 100vh;
-        }
-      `}</style>
     </>
   );
 }

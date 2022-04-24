@@ -1,7 +1,7 @@
 import { Form, Input, InputGroup, Button } from "reactstrap";
 
 export const FormSearch = ({ handleSubmit, isLoading }) => (
-  <Form className="align-self-center my-3" onSubmit={handleSubmit} inline>
+  <Form className="my-3" onSubmit={handleSubmit}>
     <InputGroup>
       <Input
         id="URL"

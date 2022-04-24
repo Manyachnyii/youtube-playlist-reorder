@@ -31,7 +31,7 @@ export default function Home() {
   };
 
   return (
-    <Container className="h-100">
+    <Container>
       <FormSearch handleSubmit={handleSubmit} isLoading={isLoading} />
 
       {isLoading && "Load..."}
