@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Container, Input, Button, Form, FormGroup, Label } from "reactstrap";
+import { Container, Button, Form, Input, InputGroup } from "reactstrap";
 
 import { ResultList } from "../components/ResultList";
 
@@ -25,28 +25,29 @@ export default function Home() {
     } else if (res.error) {
       setError(res.error);
     }
+
     setIsLoading(false);
   };
 
   return (
-    <>
-      <Container className="h-100">
-        <Form className="align-self-center my-3" onSubmit={handleSubmit} inline>
-          <FormGroup floating>
-            <Input id="URL" name="URL" placeholder="URL" type="text" />
-            <Label for="URL">
-              URL of channel, user, playlist or playlist ID
-            </Label>
-          </FormGroup>
+    <Container className="h-100">
+      <Form className="align-self-center my-3" onSubmit={handleSubmit} inline>
+        <InputGroup>
+          <Input
+            id="URL"
+            name="URL"
+            placeholder="URL of channel, user, playlist or playlist ID"
+            type="text"
+          />
           <Button disabled={isLoading ? true : false}>Submit</Button>
-        </Form>
+        </InputGroup>
+      </Form>
 
-        {isLoading && "Load..."}
+      {isLoading && "Load..."}
 
-        {Error && <p>{Error}</p>}
+      {Error && <p>{Error}</p>}
 
-        {playlist && <ResultList playlist={playlist} />}
-      </Container>
-    </>
+      {playlist && <ResultList playlist={playlist} />}
+    </Container>
   );
 }
