@@ -22,7 +22,7 @@ export const ResultList = ({
       </p>
       <sup>{description}</sup>
     </header>
-    <Row sm={2} md={3} lg={4} xl={6} className="g-4">
+    <Row xs={1} sm={2} md={3} lg={4} xl={5} xxl={6} className="g-4">
       {items.map(({ title, id, duration, bestThumbnail }) => (
         <Col key={id}>
           <Card className="h-100">
@@ -30,6 +30,7 @@ export const ResultList = ({
               src={bestThumbnail.url}
               width={bestThumbnail.width}
               height={bestThumbnail.height}
+              layout="responsive"
             />
             <CardBody className="d-flex flex-column">
               <CardTitle tag="h5">{title}</CardTitle>
