@@ -1,33 +1,54 @@
 import { useState } from "react";
-import { Container } from "reactstrap";
+import { Container, Button } from "reactstrap";
 
 import { FormSearch } from "../components/FormSearch";
 import { ResultList } from "../components/ResultList";
 
-import { getPlaylist } from "../lib/getPlaylist";
+import { getPlaylist, getPlaylistNext } from "../lib/getPlaylist";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
-  const [Error, setError] = useState(null);
+  const [ErrorLoad, setErrorLoad] = useState(null);
+
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [ErrorLoadMore, setErrorLoadMore] = useState(null);
 
   const [playlist, setPlaylist] = useState(null);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const input = e.target[0].value;
-
+  const loadPlaylist = async (search) => {
     setIsLoading(true);
-    setError(null);
-    setPlaylist(null);
-
-    const res = await getPlaylist(input);
+    setErrorLoadMore(null);
+    const res = await getPlaylist(search);
     if (res.success) {
       setPlaylist({ ...res.data });
     } else if (res.error) {
-      setError(res.error);
+      setErrorLoad(res.error);
     }
-
     setIsLoading(false);
+  };
+
+  const loadMore = async () => {
+    setIsLoadingMore(true);
+    setErrorLoadMore(null);
+    const res = await getPlaylistNext(playlist.continuation);
+    if (res.success) {
+      setPlaylist({
+        ...playlist,
+        items: [...playlist.items, ...res.data.items],
+        continuation: res.data.continuation,
+      });
+    } else if (res.error) {
+      setErrorLoadMore(res.error);
+    }
+    setIsLoadingMore(false);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const input = event.target[0].value;
+    setErrorLoad(null);
+    setPlaylist(null);
+    loadPlaylist(input);
   };
 
   return (
@@ -36,9 +57,18 @@ export default function Home() {
 
       {isLoading && "Load..."}
 
-      {Error && <p>{Error}</p>}
+      {ErrorLoad && <p>{ErrorLoad}</p>}
 
       {playlist && <ResultList playlist={playlist} />}
+
+      {playlist?.continuation && (
+        <div className="my-4 d-flex justify-content-center">
+          <Button onClick={loadMore} disabled={isLoadingMore}>
+            More
+          </Button>
+          {ErrorLoadMore && <p>{ErrorLoadMore}</p>}
+        </div>
+      )}
     </Container>
   );
 }
