@@ -5,7 +5,7 @@ import { Card, CardBody, CardTitle, CardText } from "reactstrap";
 export const ResultList = ({
   playlist: { author, title, description, lastUpdated, items },
 }) => (
-  <>
+  <div className="my-4">
     <header>
       <div className="d-flex align-items-center">
         <Image
@@ -40,5 +40,5 @@ export const ResultList = ({
         </Col>
       ))}
     </Row>
-  </>
+  </div>
 );
