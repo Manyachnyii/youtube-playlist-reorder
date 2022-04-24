@@ -3,7 +3,7 @@ import { Row, Col } from "reactstrap";
 import { Card, CardBody, CardTitle, CardText } from "reactstrap";
 
 export const ResultList = ({
-  playlist: { author, title, description, lastUpdated, items, ...other },
+  playlist: { author, title, description, lastUpdated, items },
 }) => (
   <>
     <header>
@@ -21,9 +21,9 @@ export const ResultList = ({
       </p>
       <sup>{description}</sup>
     </header>
-    <Row>
+    <Row sm={2} md={3} lg={4} xl={6} className="g-4">
       {items.map(({ title, id, duration, bestThumbnail }) => (
-        <Col sm={6} md={4} lg={3} xl={2} key={id} className="p-2">
+        <Col key={id}>
           <Card className="h-100">
             <Image
               src={bestThumbnail.url}
