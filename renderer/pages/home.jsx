@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Container, Button, Form, Input, InputGroup } from "reactstrap";
+import { Container } from "reactstrap";
 
+import { FormSearch } from "../components/FormSearch";
 import { ResultList } from "../components/ResultList";
 
 import { getPlaylist } from "../lib/getPlaylist";
@@ -31,17 +32,7 @@ export default function Home() {
 
   return (
     <Container className="h-100">
-      <Form className="align-self-center my-3" onSubmit={handleSubmit} inline>
-        <InputGroup>
-          <Input
-            id="URL"
-            name="URL"
-            placeholder="URL of channel, user, playlist or playlist ID"
-            type="text"
-          />
-          <Button disabled={isLoading ? true : false}>Submit</Button>
-        </InputGroup>
-      </Form>
+      <FormSearch handleSubmit={handleSubmit} isLoading={isLoading} />
 
       {isLoading && "Load..."}
 
