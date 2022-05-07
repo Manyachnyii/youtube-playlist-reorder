@@ -1,7 +1,11 @@
 {
-  "version": "0.0.1",
+  "version": "0.0.0",
   "private": true,
   "name": "youtube-playlist-sorting",
+  "description": "App to reorder videos in youtube playlist",
+  "author": {
+    "name": "Manyachnyii"
+  },
   "main": "app/background.js",
   "scripts": {
     "dev": "nextron",
