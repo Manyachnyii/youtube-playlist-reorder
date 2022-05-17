@@ -96,7 +96,7 @@ export const ResultList = ({ playlist }) => {
                 draggable={false}
               />
               <CardBody className="d-flex flex-column">
-                <CardTitle tag="h5">{title}</CardTitle>
+                <CardTitle tag="h6">{title}</CardTitle>
                 <CardText className="mt-auto">
                   <span className="badge bg-secondary text-wrap">
                     {duration}
