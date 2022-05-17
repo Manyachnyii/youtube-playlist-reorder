@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Row, Col } from "reactstrap";
-import { Card, CardBody, CardTitle, CardText } from "reactstrap";
+import { Button, Card, CardBody, CardTitle, CardText } from "reactstrap";
 
 export const ResultList = ({ playlist }) => {
   const { author, title, description, lastUpdated, items } = playlist;
@@ -38,14 +38,22 @@ export const ResultList = ({ playlist }) => {
     setList(sorted);
   };
 
+  const reverse = () => {
+    const reverted = list.map(list.pop, [...list]);
+    setList(reverted);
+  };
+
   const handleDragStart = (index) => {
     setDrag(index);
   };
+
   const handleDragOver = (e) => e.preventDefault();
+
   const handleDrop = (e, index) => {
     e.preventDefault();
     setDrop(index);
   };
+
   const handleDragEnd = () => sorting();
 
   return (
@@ -61,8 +69,17 @@ export const ResultList = ({ playlist }) => {
         </p>
         <sup>{description}</sup>
       </header>
+
+      <Row className="my-2">
+        <Col>
+          <Button className="float-end" onClick={reverse}>
+            Reverse
+          </Button>
+        </Col>
+      </Row>
+
       <Row xs={1} sm={2} md={3} lg={4} xl={5} xxl={6} className="g-4">
-        {list.map(({ title, id, duration, bestThumbnail }, index) => (
+        {list?.map(({ title, id, duration, bestThumbnail }, index) => (
           <Col key={id}>
             <Card
               className="h-100"
