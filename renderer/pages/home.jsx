@@ -15,10 +15,10 @@ export default function Home() {
 
   const [playlist, setPlaylist] = useState(null);
 
-  const loadPlaylist = async (search) => {
+  const loadPlaylist = async (input, loadAll) => {
     setIsLoading(true);
     setErrorLoadMore(null);
-    const res = await getPlaylist(search);
+    const res = await getPlaylist(input, loadAll);
     if (res.success) {
       setPlaylist({ ...res.data });
     } else if (res.error) {
@@ -46,9 +46,10 @@ export default function Home() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const input = event.target[0].value;
+    const loadAll = event.target[1].checked;
     setErrorLoad(null);
     setPlaylist(null);
-    loadPlaylist(input);
+    loadPlaylist(input, loadAll);
   };
 
   return (

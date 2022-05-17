@@ -1,11 +1,13 @@
 import ytpl from "ytpl";
 
-export const getPlaylist = async (url) => {
+export const getPlaylist = async (input, loadAll) => {
   try {
-    const valid = ytpl.validateID(url);
+    const valid = ytpl.validateID(input);
     if (valid) {
-      const playlistId = await ytpl.getPlaylistID(url);
-      const videoList = await ytpl(playlistId, { pages: 1 });
+      const playlistId = await ytpl.getPlaylistID(input);
+      const videoList = await ytpl(playlistId, {
+        pages: loadAll ? Infinity : 1,
+      });
       return { success: true, data: videoList };
     }
     throw { message: "Not valid input" };
