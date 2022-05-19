@@ -13,6 +13,8 @@ import {
   ModalFooter,
 } from "reactstrap";
 
+import { Player } from "./Player";
+
 export const ResultList = ({ playlist }) => {
   const { author, title, description, lastUpdated, items, estimatedItemCount } =
     playlist;
@@ -132,12 +134,10 @@ export const ResultList = ({ playlist }) => {
         from <span className="fs-6 fw-bolder">{estimatedItemCount}</span>
       </div>
 
-      <Modal centered isOpen={isOpenModal} toggle={closeModal}>
+      <Modal size="lg" centered isOpen={isOpenModal} toggle={closeModal}>
         <ModalHeader toggle={closeModal}>{title}</ModalHeader>
         <ModalBody>
-          {list.map(({ index, title }) => (
-            <p key={index}>{title}</p>
-          ))}
+          <Player playlist={list.map((el) => el.id)} />
         </ModalBody>
         <ModalFooter>
           <Button color="danger" onClick={closeModal}>
