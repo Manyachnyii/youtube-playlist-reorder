@@ -1,19 +1,30 @@
 import { useState, useEffect } from "react";
-import { Row, Col } from "reactstrap";
-import { Button, Card, CardBody, CardTitle, CardText } from "reactstrap";
+import {
+  Row,
+  Col,
+  Button,
+  Card,
+  CardBody,
+  CardTitle,
+  CardText,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from "reactstrap";
 
 export const ResultList = ({ playlist }) => {
   const { author, title, description, lastUpdated, items } = playlist;
 
   const [list, setList] = useState([]);
+  const [drag, setDrag] = useState();
+  const [drop, setDrop] = useState();
+  const [isOpenModal, setIsOpenModal] = useState(false);
 
   useEffect(() => {
     const newItems = items.slice(list.length);
     setList([...list, ...newItems]);
   }, [items]);
-
-  const [drag, setDrag] = useState();
-  const [drop, setDrop] = useState();
 
   const sorting = () => {
     let sliceStart, sliceEnd, slice;
@@ -30,10 +41,8 @@ export const ResultList = ({ playlist }) => {
       slice.push(list[drag]);
       slice.shift();
     } else return;
-
     const beforeSlice = list.slice(0, sliceStart);
     const afterSlice = list.slice(sliceEnd);
-
     const sorted = [...beforeSlice, ...slice, ...afterSlice];
     setList(sorted);
   };
@@ -46,15 +55,15 @@ export const ResultList = ({ playlist }) => {
   const handleDragStart = (index) => {
     setDrag(index);
   };
-
   const handleDragOver = (e) => e.preventDefault();
-
   const handleDrop = (e, index) => {
     e.preventDefault();
     setDrop(index);
   };
-
   const handleDragEnd = () => sorting();
+
+  const openModal = () => setIsOpenModal(true);
+  const closeModal = () => setIsOpenModal(false);
 
   return (
     <div className="my-4">
@@ -72,6 +81,8 @@ export const ResultList = ({ playlist }) => {
 
       <Row className="my-2">
         <Col>
+          <Button onClick={openModal}>Watch</Button>
+
           <Button className="float-end" onClick={reverse}>
             Reverse
           </Button>
@@ -107,6 +118,20 @@ export const ResultList = ({ playlist }) => {
           </Col>
         ))}
       </Row>
+
+      <Modal centered isOpen={isOpenModal} toggle={closeModal}>
+        <ModalHeader toggle={closeModal}>{title}</ModalHeader>
+        <ModalBody>
+          {list.map(({ index, title }) => (
+            <p key={index}>{title}</p>
+          ))}
+        </ModalBody>
+        <ModalFooter>
+          <Button color="danger" onClick={closeModal}>
+            Close
+          </Button>
+        </ModalFooter>
+      </Modal>
     </div>
   );
 };
