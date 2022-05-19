@@ -14,7 +14,8 @@ import {
 } from "reactstrap";
 
 export const ResultList = ({ playlist }) => {
-  const { author, title, description, lastUpdated, items } = playlist;
+  const { author, title, description, lastUpdated, items, estimatedItemCount } =
+    playlist;
 
   const [list, setList] = useState([]);
   const [drag, setDrag] = useState();
@@ -67,19 +68,26 @@ export const ResultList = ({ playlist }) => {
 
   return (
     <div className="my-4">
-      <header>
-        <div className="d-flex align-items-center">
+      <header className="mb-3">
+        <section className="d-flex align-items-center">
           <img src={author.bestAvatar.url} alt="avatar" />
           <span className="h1 ms-2">{author.name}</span>
-        </div>
-        <p>
+        </section>
+        <section>
           <span className="h2">{title} </span>
           <sup>{lastUpdated}</sup>
-        </p>
-        <sup>{description}</sup>
+          <div>{description}</div>
+        </section>
+        <section className="text-end text-muted">
+          Loaded videos{" "}
+          <span className="fs-6 fw-bolder text-black">{items.length}</span> from{" "}
+          <span className="fs-6 fw-bolder text-black">
+            {estimatedItemCount}
+          </span>
+        </section>
       </header>
 
-      <Row className="my-2">
+      <Row className="my-3">
         <Col>
           <Button onClick={openModal}>Watch</Button>
 
@@ -118,6 +126,11 @@ export const ResultList = ({ playlist }) => {
           </Col>
         ))}
       </Row>
+
+      <div className=" my-3 text-center text-muted">
+        Loaded videos <span className="fs-6 fw-bolder">{items.length}</span>{" "}
+        from <span className="fs-6 fw-bolder">{estimatedItemCount}</span>
+      </div>
 
       <Modal centered isOpen={isOpenModal} toggle={closeModal}>
         <ModalHeader toggle={closeModal}>{title}</ModalHeader>
