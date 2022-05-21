@@ -15,6 +15,8 @@ import {
 
 import { WatchPlaylist } from "./WatchPlaylist";
 
+import { moveArrayElement } from "../utils/moveArrayElement";
+
 export const ResultList = ({ playlist }) => {
   const { author, title, description, lastUpdated, items, estimatedItemCount } =
     playlist;
@@ -29,25 +31,9 @@ export const ResultList = ({ playlist }) => {
     setList([...list, ...newItems]);
   }, [items]);
 
-  const sorting = () => {
-    let sliceStart, sliceEnd, slice;
-    if (drag > drop) {
-      sliceStart = drop;
-      sliceEnd = drag;
-      slice = list.slice(sliceStart, ++sliceEnd);
-      slice.unshift(list[drag]);
-      slice.pop();
-    } else if (drag < drop) {
-      sliceStart = drag;
-      sliceEnd = drop;
-      slice = list.slice(sliceStart, ++sliceEnd);
-      slice.push(list[drag]);
-      slice.shift();
-    } else return;
-    const beforeSlice = list.slice(0, sliceStart);
-    const afterSlice = list.slice(sliceEnd);
-    const sorted = [...beforeSlice, ...slice, ...afterSlice];
-    setList(sorted);
+  const movement = () => {
+    const moved = moveArrayElement(list, drag, drop);
+    setList(moved);
   };
 
   const reverse = () => {
@@ -63,7 +49,7 @@ export const ResultList = ({ playlist }) => {
     e.preventDefault();
     setDrop(index);
   };
-  const handleDragEnd = () => sorting();
+  const handleDragEnd = () => movement();
 
   const openModal = () => setIsOpenModal(true);
   const closeModal = () => setIsOpenModal(false);
