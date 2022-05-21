@@ -1,7 +1,7 @@
 {
   "version": "0.0.0",
   "private": true,
-  "name": "youtube-playlist-sorting",
+  "name": "youtube-playlist-reorder",
   "description": "App to reorder videos in youtube playlist",
   "author": {
     "name": "Manyachnyii"

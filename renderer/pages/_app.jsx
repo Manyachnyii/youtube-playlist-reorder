@@ -5,7 +5,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <title>YouTube playlist sorting</title>
+        <title>YouTube playlist reorder</title>
       </Head>
       <main className="min-vh-100 d-flex flex-wrap align-content-center">
         <Component {...pageProps} />
