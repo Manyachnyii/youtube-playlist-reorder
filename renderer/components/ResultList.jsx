@@ -13,7 +13,7 @@ import {
   ModalFooter,
 } from "reactstrap";
 
-import { Player } from "./Player";
+import { WatchPlaylist } from "./WatchPlaylist";
 
 export const ResultList = ({ playlist }) => {
   const { author, title, description, lastUpdated, items, estimatedItemCount } =
@@ -137,7 +137,7 @@ export const ResultList = ({ playlist }) => {
       <Modal size="lg" centered isOpen={isOpenModal} toggle={closeModal}>
         <ModalHeader toggle={closeModal}>{title}</ModalHeader>
         <ModalBody>
-          <Player playlist={list.map((el) => el.id)} />
+          <WatchPlaylist playlist={list.map((el) => el.id)} />
         </ModalBody>
         <ModalFooter>
           <Button color="danger" onClick={closeModal}>

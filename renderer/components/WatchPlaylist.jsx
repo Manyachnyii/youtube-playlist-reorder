@@ -6,7 +6,7 @@ import {
   AccordionItem,
 } from "reactstrap";
 
-export const Player = ({ playlist }) => {
+export const WatchPlaylist = ({ playlist }) => {
   const [slicedPlaylist, setSlicedPlaylist] = useState([]);
   const step = 200;
 
