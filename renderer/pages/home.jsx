@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Container, Button } from "reactstrap";
+import { Container, Button, Spinner } from "reactstrap";
 
 import { FormSearch } from "../components/FormSearch";
 import { ResultList } from "../components/ResultList";
@@ -56,7 +56,7 @@ export default function Home() {
     <Container>
       <FormSearch handleSubmit={handleSubmit} isLoading={isLoading} />
 
-      {isLoading && "Load..."}
+      {isLoading && <Spinner>Loading...</Spinner>}
 
       {ErrorLoad && <p>{ErrorLoad}</p>}
 
@@ -65,7 +65,7 @@ export default function Home() {
       {playlist?.continuation && (
         <div className="my-4 d-flex justify-content-center">
           <Button onClick={loadMore} disabled={isLoadingMore}>
-            More
+            {!isLoadingMore ? "More" : <Spinner size="sm">Loading...</Spinner>}
           </Button>
           {ErrorLoadMore && <p>{ErrorLoadMore}</p>}
         </div>

@@ -1,4 +1,11 @@
-import { Form, Input, InputGroup, InputGroupText, Button } from "reactstrap";
+import {
+  Form,
+  Input,
+  InputGroup,
+  InputGroupText,
+  Button,
+  Spinner,
+} from "reactstrap";
 
 export const FormSearch = ({ handleSubmit, isLoading }) => (
   <Form className="my-3" onSubmit={handleSubmit}>
@@ -15,7 +22,9 @@ export const FormSearch = ({ handleSubmit, isLoading }) => (
         <Input className="m-1" aria-label="checkbox" type="checkbox" />
       </InputGroupText>
 
-      <Button disabled={isLoading}>Submit</Button>
+      <Button disabled={isLoading}>
+        {!isLoading ? "Submit" : <Spinner size="sm">Loading...</Spinner>}
+      </Button>
     </InputGroup>
   </Form>
 );
