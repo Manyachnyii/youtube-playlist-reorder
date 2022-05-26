@@ -49,7 +49,11 @@ export const ResultList = ({ playlist }) => {
     e.preventDefault();
     setDrop(index);
   };
-  const handleDragEnd = () => movement();
+  const handleDragEnd = () => {
+    movement();
+    setDrag();
+    setDrop();
+  };
 
   const openModal = () => setIsOpenModal(true);
   const closeModal = () => setIsOpenModal(false);
