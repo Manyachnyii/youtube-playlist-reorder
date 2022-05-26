@@ -13,7 +13,7 @@ export const moveArrayElement = (array, moveFromIndex, moveToIndex) => {
     slice = array.slice(sliceStart, ++sliceEnd);
     slice.push(array[moveFromIndex]);
     slice.shift();
-  } else return;
+  } else return array;
 
   const beforeSlice = array.slice(0, sliceStart);
   const afterSlice = array.slice(sliceEnd);
