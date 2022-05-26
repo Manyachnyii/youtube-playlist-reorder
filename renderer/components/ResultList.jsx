@@ -44,10 +44,23 @@ export const ResultList = ({ playlist }) => {
   const handleDragStart = (index) => {
     setDrag(index);
   };
-  const handleDragOver = (e) => e.preventDefault();
+  const handleDragOver = (e, index) => {
+    e.preventDefault();
+    if (index > drag) {
+      e.currentTarget.classList.add("drop-left");
+    } else {
+      e.currentTarget.classList.add("drop-right");
+    }
+  };
+  const handleDragLeave = (e) => {
+    e.currentTarget.classList.remove("drop-left");
+    e.currentTarget.classList.remove("drop-right");
+  };
   const handleDrop = (e, index) => {
     e.preventDefault();
     setDrop(index);
+    e.currentTarget.classList.remove("drop-left");
+    e.currentTarget.classList.remove("drop-right");
   };
   const handleDragEnd = () => {
     movement();
@@ -96,7 +109,8 @@ export const ResultList = ({ playlist }) => {
               className="h-100"
               draggable={true}
               onDragStart={() => handleDragStart(index)}
-              onDragOver={handleDragOver}
+              onDragOver={(e) => handleDragOver(e, index)}
+              onDragLeave={handleDragLeave}
               onDrop={(e) => handleDrop(e, index)}
               onDragEnd={handleDragEnd}
             >
@@ -135,6 +149,17 @@ export const ResultList = ({ playlist }) => {
           </Button>
         </ModalFooter>
       </Modal>
+
+      <style jsx global>{`
+        .drop-left {
+          transition: 0.2s;
+          box-shadow: 10px 5px 5px red;
+        }
+        .drop-right {
+          transition: 0.2s;
+          box-shadow: -10px 5px 5px red;
+        }
+      `}</style>
     </div>
   );
 };
