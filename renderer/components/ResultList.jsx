@@ -22,6 +22,7 @@ export const ResultList = ({ playlist }) => {
     playlist;
 
   const [list, setList] = useState([]);
+  const [videos, setVideos] = useState([])
   const [drag, setDrag] = useState();
   const [drop, setDrop] = useState();
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -30,6 +31,12 @@ export const ResultList = ({ playlist }) => {
     const newItems = items.slice(list.length);
     setList([...list, ...newItems]);
   }, [items]);
+
+  useEffect(() => {
+    const arrayVideosId = list.map((el) => el.id);
+    setVideos(arrayVideosId);
+  }, [list])
+  
 
   const movement = () => {
     const moved = moveArrayElement(list, drag, drop);
@@ -95,7 +102,6 @@ export const ResultList = ({ playlist }) => {
       <Row className="my-3">
         <Col>
           <Button onClick={openModal}>Watch</Button>
-
           <Button className="float-end" onClick={reverse}>
             Reverse
           </Button>
@@ -141,7 +147,7 @@ export const ResultList = ({ playlist }) => {
       <Modal size="lg" centered isOpen={isOpenModal} toggle={closeModal}>
         <ModalHeader toggle={closeModal}>{title}</ModalHeader>
         <ModalBody>
-          <WatchPlaylist playlist={list.map((el) => el.id)} />
+          <WatchPlaylist playlist={videos} />
         </ModalBody>
         <ModalFooter>
           <Button color="danger" onClick={closeModal}>
