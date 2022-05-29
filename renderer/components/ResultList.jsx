@@ -11,21 +11,28 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
+  UncontrolledPopover,
+  PopoverHeader,
+  PopoverBody,
+  Badge,
 } from "reactstrap";
 
 import { WatchPlaylist } from "./WatchPlaylist";
 
 import { moveArrayElement } from "../utils/moveArrayElement";
+import { createPlaylistFile } from "../utils/createPlaylistFile";
 
 export const ResultList = ({ playlist }) => {
   const { author, title, description, lastUpdated, items, estimatedItemCount } =
     playlist;
 
   const [list, setList] = useState([]);
-  const [videos, setVideos] = useState([])
+  const [videos, setVideos] = useState([]);
   const [drag, setDrag] = useState();
   const [drop, setDrop] = useState();
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [playlistFile, setPlaylistFile] = useState();
+  const [playlistFileDownloadUrl, setPlaylistFileDownloadUrl] = useState();
 
   useEffect(() => {
     const newItems = items.slice(list.length);
@@ -35,8 +42,11 @@ export const ResultList = ({ playlist }) => {
   useEffect(() => {
     const arrayVideosId = list.map((el) => el.id);
     setVideos(arrayVideosId);
-  }, [list])
-  
+    return () => {
+      URL.revokeObjectURL(playlistFileDownloadUrl);
+      setPlaylistFileDownloadUrl();
+    };
+  }, [list]);
 
   const movement = () => {
     const moved = moveArrayElement(list, drag, drop);
@@ -46,6 +56,13 @@ export const ResultList = ({ playlist }) => {
   const reverse = () => {
     const reverted = list.map(list.pop, [...list]);
     setList(reverted);
+  };
+
+  const savePlaylist = () => {
+    const file = createPlaylistFile(list, author.name, title);
+    setPlaylistFile(file);
+    const objectURL = URL.createObjectURL(file);
+    setPlaylistFileDownloadUrl(objectURL);
   };
 
   const handleDragStart = (index) => {
@@ -101,7 +118,10 @@ export const ResultList = ({ playlist }) => {
 
       <Row className="my-3">
         <Col>
-          <Button onClick={openModal}>Watch</Button>
+          <Button onClick={openModal}>Watch</Button>{" "}
+          <Button id="PopoverLegacy" type="button" onClick={savePlaylist}>
+            Save
+          </Button>{" "}
           <Button className="float-end" onClick={reverse}>
             Reverse
           </Button>
@@ -155,6 +175,23 @@ export const ResultList = ({ playlist }) => {
           </Button>
         </ModalFooter>
       </Modal>
+
+      <UncontrolledPopover
+        placement="bottom"
+        target="PopoverLegacy"
+        trigger="legacy"
+      >
+        <PopoverHeader>Save playlist to play in VLC</PopoverHeader>
+        <PopoverBody>
+          {!playlistFile || !playlistFileDownloadUrl ? null : (
+            <a href={playlistFileDownloadUrl} download={playlistFile.name}>
+              <Badge color="primary" pill>
+                m3u8
+              </Badge>
+            </a>
+          )}
+        </PopoverBody>
+      </UncontrolledPopover>
 
       <style jsx global>{`
         .drop-left {
